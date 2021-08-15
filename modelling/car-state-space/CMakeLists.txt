@@ -12,6 +12,7 @@ file(GLOB CASADI_SOURCES ${CASADI_PATH} "casadi/core/*.cpp" )
 add_executable(${PROJECT_NAME} 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/car_nonlinear.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/car_nonlinear_vx.cpp
     ${CASADI_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/../mt-tools/src/mt_tools.cpp
 )

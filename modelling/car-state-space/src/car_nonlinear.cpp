@@ -105,8 +105,8 @@ void CarNonlinearStateSpace::CalculateDynamics() {
     casadi::MX temp;
     // Change expression from dd_x and dd_y to d_vx and d_vy:
     d_vel = casadi::MX::mtimes(R_EV.T(),casadi::MX::vertcat({dd_q_v(0),dd_q_v(1)})) - casadi::MX::mtimes(dotR_EV,vel);
-    //dd_q_v = casadi::MX::vertcat({d_vel(0),d_vel(1),dd_q_v(2)});
-    dotX = casadi::MX::vertcat({d_vel(0),d_vel(1),dd_q_v(2)});
+    // dd_q_v = casadi::MX::vertcat({d_vel(0),d_vel(1),dd_q_v(2)});
+    // dotX = casadi::MX::vertcat({d_vel(0),d_vel(1),dd_q_v(2)});
     dd_q_frame_v = casadi::MX::vertcat({d_vel(0),d_vel(1),dd_q_v(2)});
 }
 
