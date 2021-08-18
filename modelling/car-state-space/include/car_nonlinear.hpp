@@ -17,6 +17,7 @@ class CarNonlinearStateSpace {
         virtual void CalculateGeneralizedForces();
         virtual void CalculateDynamics();
         virtual void DefineStateSpace();
+        virtual void Linearize();
         casadi::MX GetStateVector();
         casadi::MX GetInputVector();
         casadi::MX GetFunctionVector();

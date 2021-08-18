@@ -14,6 +14,7 @@ void CarNonlinearStateSpace::Run() {
     CalculateGeneralizedForces();
     CalculateDynamics();
     DefineStateSpace();
+    Linearize();
 }
 
 // Create Symbolcis used for modelling
@@ -122,6 +123,10 @@ void CarNonlinearStateSpace::DefineStateSpace() {
     // State function
     dotX = dd_q_frame_v; 
 }
+
+void CarNonlinearStateSpace::Linearize() {
+    // Empty for nonlinear models
+};
 
 casadi::MX CarNonlinearStateSpace::GetStateVector() {
     return X;
