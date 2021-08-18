@@ -14,6 +14,7 @@ add_executable(${PROJECT_NAME}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/car_nonlinear.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/car_nonlinear_vx.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/car_linear.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/car_linear_vx.cpp
     ${CASADI_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/../mt-tools/src/mt_tools.cpp
 )

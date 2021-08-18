@@ -1,6 +1,7 @@
 #include "car_nonlinear.hpp"
 #include "car_nonlinear_vx.hpp"
 #include "car_linear.hpp"
+#include "car_linear_vx.hpp"
 
 int main() {
     // Nonlinear state-space
@@ -23,5 +24,9 @@ int main() {
     carLinear.Run();
     casadi::MX A = carLinear.GetA();
     std::cout << " A matrix : " << A << std::endl;
+    CarLinearVxStateSpace carLinearVx;
+    carLinearVx.Run();
+    casadi::MX A_vx = carLinearVx.GetA();
+    std::cout << " A matrix Vx : " << A_vx << std::endl;
 }
 
