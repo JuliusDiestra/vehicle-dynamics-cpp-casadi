@@ -14,6 +14,7 @@ void CarNonlinearStateSpace::Run() {
     CalculateGeneralizedForces();
     CalculateDynamics();
     DefineStateSpace();
+    DefineParameters();
     Linearize();
 }
 
@@ -124,6 +125,10 @@ void CarNonlinearStateSpace::DefineStateSpace() {
     dotX = dd_q_frame_v; 
 }
 
+void CarNonlinearStateSpace::DefineParameters() {
+   parameters = casadi::MX::vertcat({Cy1,Cy2,l1,l2,m,J});
+}
+
 void CarNonlinearStateSpace::Linearize() {
     // Empty for nonlinear models
 };
@@ -134,6 +139,10 @@ casadi::MX CarNonlinearStateSpace::GetStateVector() {
 
 casadi::MX CarNonlinearStateSpace::GetInputVector() {
     return U;
+}
+
+casadi::MX CarNonlinearStateSpace::GetParameters() {
+    return parameters;
 }
 
 casadi::MX CarNonlinearStateSpace::GetFunctionVector() {

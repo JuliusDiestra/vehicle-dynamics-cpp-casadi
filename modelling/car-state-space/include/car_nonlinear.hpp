@@ -17,9 +17,11 @@ class CarNonlinearStateSpace {
         virtual void CalculateGeneralizedForces();
         virtual void CalculateDynamics();
         virtual void DefineStateSpace();
+        void DefineParameters();
         virtual void Linearize();
         casadi::MX GetStateVector();
         casadi::MX GetInputVector();
+        casadi::MX GetParameters();
         casadi::MX GetFunctionVector();
     protected:
         mt::tools mt;
@@ -74,6 +76,7 @@ class CarNonlinearStateSpace {
         casadi::MX F2;
         casadi::MX F;
         casadi::MX dotR_EV;
+        casadi::MX parameters;
 };
 
 #endif // CAR_NONLINEAR_STATE_SPACE_HPP_

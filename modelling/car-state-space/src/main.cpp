@@ -9,9 +9,11 @@ int main() {
     car.Run(); 
     casadi::MX U = car.GetInputVector();
     casadi::MX X = car.GetStateVector();
+    casadi::MX parameters = car.GetParameters();
     std::cout << "###### Nonlinear #######" << std::endl;
     std::cout << "Input: " << U << std::endl;
     std::cout << "State: " << X << std::endl;
+    std::cout << "Parameters: " << parameters << std::endl;
     // Nonlinear state-space : Constant velocity
     CarNonlinearVxStateSpace carVx;
     carVx.Run(); 
@@ -23,10 +25,10 @@ int main() {
     CarLinearStateSpace carLinear;
     carLinear.Run();
     casadi::MX A = carLinear.GetA();
-    std::cout << " A matrix : " << A << std::endl;
+//    std::cout << " A matrix : " << A << std::endl;
     CarLinearVxStateSpace carLinearVx;
     carLinearVx.Run();
     casadi::MX A_vx = carLinearVx.GetA();
-    std::cout << " A matrix Vx : " << A_vx << std::endl;
+//    std::cout << " A matrix Vx : " << A_vx << std::endl;
 }
 
