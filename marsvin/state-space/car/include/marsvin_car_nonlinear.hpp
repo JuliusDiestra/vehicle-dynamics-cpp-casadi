@@ -1,8 +1,10 @@
-#ifndef CAR_NONLINEAR_STATE_SPACE_HPP_
-#define CAR_NONLINEAR_STATE_SPACE_HPP_
+#ifndef MARSVIN_STATE_SPACE_CAR_NONLINEAR_HPP_
+#define MARSVIN_STATE_SPACE_CAR_NONLINEAR_HPP_
 
 #include "casadi/casadi.hpp"
-#include "mt_tools.hpp"
+#include "marsvin_tools.hpp"
+
+namespace marsvin {
 
 class CarNonlinearStateSpace {
     public:
@@ -24,7 +26,7 @@ class CarNonlinearStateSpace {
         casadi::MX GetParameters();
         casadi::MX GetFunctionVector();
     protected:
-        mt::tools mt;
+        marsvin::tools mt;
         casadi::MX x;
         casadi::MX y;
         casadi::MX psi;
@@ -78,5 +80,7 @@ class CarNonlinearStateSpace {
         casadi::MX dotR_EV;
         casadi::MX parameters;
 };
+}
 
-#endif // CAR_NONLINEAR_STATE_SPACE_HPP_
+#endif // MARSVIN_STATE_SPACE_CAR_NONLINEAR_HPP_
+

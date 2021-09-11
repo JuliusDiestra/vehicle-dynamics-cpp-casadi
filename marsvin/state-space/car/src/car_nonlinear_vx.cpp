@@ -1,9 +1,9 @@
-#include "car_nonlinear_vx.hpp"
+#include "marsvin_car_nonlinear_vx.hpp"
 
 // Constructor
-CarNonlinearVxStateSpace::CarNonlinearVxStateSpace(){};
+marsvin::CarNonlinearVxStateSpace::CarNonlinearVxStateSpace(){};
 
-void CarNonlinearVxStateSpace::CalculateExternalForces() {
+void marsvin::CarNonlinearVxStateSpace::CalculateExternalForces() {
     Sy1 = vw1(1)/vw1(0);
     Sy2 = vw2(1)/vw2(0);
     Fxw1 = 0;
@@ -14,12 +14,12 @@ void CarNonlinearVxStateSpace::CalculateExternalForces() {
     F2 = casadi::MX::mtimes(R_EV,casadi::MX::vertcat({Fxw2,Fyw2}));
 };
 
-void CarNonlinearVxStateSpace::CalculateGeneralizedForces() {
+void marsvin::CarNonlinearVxStateSpace::CalculateGeneralizedForces() {
     casadi::MX Q_temp = casadi::MX::mtimes(F1.T(),casadi::MX::jacobian(r1,q)) + casadi::MX::mtimes(F2.T(),casadi::MX::jacobian(r2,q));
     Q = Q_temp.T();
 };
 
-void CarNonlinearVxStateSpace::DefineStateSpace() {
+void marsvin::CarNonlinearVxStateSpace::DefineStateSpace() {
     // State-space: Nonlinear equation
     /*
         dotX = f(X,U)

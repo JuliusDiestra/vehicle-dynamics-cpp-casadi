@@ -11,5 +11,5 @@ cmake ..
 # Make binaries
 make
 # Run binaries
-./circular_movement
+./marsvin_example
 

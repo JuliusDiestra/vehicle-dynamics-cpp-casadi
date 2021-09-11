@@ -1,10 +1,10 @@
-#include "car_nonlinear.hpp"
+#include "marsvin_car_nonlinear.hpp"
 
 // Bob Constructor
-CarNonlinearStateSpace::CarNonlinearStateSpace(){};
+marsvin::CarNonlinearStateSpace::CarNonlinearStateSpace(){};
 
 // Run everything
-void CarNonlinearStateSpace::Run() {
+void marsvin::CarNonlinearStateSpace::Run() {
     CreateSymbolics();
     CreateRotationMatrices();
     CreatePositionVectors();
@@ -19,7 +19,7 @@ void CarNonlinearStateSpace::Run() {
 }
 
 // Create Symbolcis used for modelling
-void CarNonlinearStateSpace::CreateSymbolics() {
+void marsvin::CarNonlinearStateSpace::CreateSymbolics() {
     // States
     x = casadi::MX::sym("x");
     y = casadi::MX::sym("y"); 
@@ -46,13 +46,13 @@ void CarNonlinearStateSpace::CreateSymbolics() {
 }
 
 // Create Rotation Matrices used for modelling
-void CarNonlinearStateSpace::CreateRotationMatrices() {
+void marsvin::CarNonlinearStateSpace::CreateRotationMatrices() {
     R_EV = mt.Rz(psi);
     R_EW = mt.Rz(psi+delta);  
 }
 
 // Create Vectors
-void CarNonlinearStateSpace::CreatePositionVectors() {
+void marsvin::CarNonlinearStateSpace::CreatePositionVectors() {
     // Generalized Coordinates
     q = casadi::MX::vertcat({x,y,psi});
     d_q = casadi::MX::vertcat({d_x,d_y,d_psi});
@@ -64,7 +64,7 @@ void CarNonlinearStateSpace::CreatePositionVectors() {
     r2 = r + casadi::MX::mtimes(R_EV,r_V2);
 }
 
-void CarNonlinearStateSpace::CalculateVelocityVectors() {
+void marsvin::CarNonlinearStateSpace::CalculateVelocityVectors() {
     d_r = mt.ChainRule(r,q,d_q);
     v1 = mt.ChainRule(r1,q,d_q);
     v2 = mt.ChainRule(r2,q,d_q);
@@ -73,11 +73,11 @@ void CarNonlinearStateSpace::CalculateVelocityVectors() {
     vel = casadi::MX::vertcat({vx,vy});
 }
 
-void CarNonlinearStateSpace::CalculateKineticEnergy() {
+void marsvin::CarNonlinearStateSpace::CalculateKineticEnergy() {
     T = 0.5*m*casadi::MX::mtimes(d_r.T(),d_r) +0.5*J*d_psi*2;
 }
 
-void CarNonlinearStateSpace::CalculateExternalForces() {
+void marsvin::CarNonlinearStateSpace::CalculateExternalForces() {
     Sy1 = vw1(1)/vw1(0);
     Sy2 = vw2(1)/vw2(0);
     Fxw1 = 0;
@@ -88,16 +88,15 @@ void CarNonlinearStateSpace::CalculateExternalForces() {
     F = 0;
 }
 
-void CarNonlinearStateSpace::CalculateGeneralizedForces() {
+void marsvin::CarNonlinearStateSpace::CalculateGeneralizedForces() {
     casadi::MX Q_temp = casadi::MX::mtimes(F1.T(),casadi::MX::jacobian(r1,q)) + casadi::MX::mtimes(F2.T(),casadi::MX::jacobian(r2,q)); 
     Q = Q_temp.T();
 }
 
-void CarNonlinearStateSpace::CalculateDynamics() {
+void marsvin::CarNonlinearStateSpace::CalculateDynamics() {
     T_q = casadi::MX::jacobian(T,q);
     T_dq = casadi::MX::jacobian(T,d_q);
     // Review following line
-    //dd_q = casadi::MX::mtimes(casadi::MX::jacobian(T_dq,d_q),-casadi::MX::mtimes(casadi::MX::jacobian(T_dq,q),d_q)+T_q+Q);
     dd_q = casadi::MX::mtimes(casadi::MX::inv(casadi::MX::jacobian(T_dq.T(),d_q)),-casadi::MX::mtimes(casadi::MX::jacobian(T_dq.T(),q),d_q)+T_q.T()+Q);
     dd_q_v = casadi::MX::substitute(dd_q,casadi::MX::vertcat({d_x,d_y}),casadi::MX::vertcat({vx*casadi::MX::cos(psi)-vy*casadi::MX::sin(psi),vy*casadi::MX::cos(psi)+vx*casadi::MX::sin(psi)}));
     dotR_EV = casadi::MX::vertcat({
@@ -107,12 +106,10 @@ void CarNonlinearStateSpace::CalculateDynamics() {
     casadi::MX temp;
     // Change expression from dd_x and dd_y to d_vx and d_vy:
     d_vel = casadi::MX::mtimes(R_EV.T(),casadi::MX::vertcat({dd_q_v(0),dd_q_v(1)})) - casadi::MX::mtimes(dotR_EV,vel);
-    // dd_q_v = casadi::MX::vertcat({d_vel(0),d_vel(1),dd_q_v(2)});
-    // dotX = casadi::MX::vertcat({d_vel(0),d_vel(1),dd_q_v(2)});
     dd_q_frame_v = casadi::MX::vertcat({d_vel(0),d_vel(1),dd_q_v(2)});
 }
 
-void CarNonlinearStateSpace::DefineStateSpace() {
+void marsvin::CarNonlinearStateSpace::DefineStateSpace() {
     // State-space: Nonlinear equation
     /*
         dotX = f(X,U)
@@ -125,27 +122,27 @@ void CarNonlinearStateSpace::DefineStateSpace() {
     dotX = dd_q_frame_v; 
 }
 
-void CarNonlinearStateSpace::DefineParameters() {
+void marsvin::CarNonlinearStateSpace::DefineParameters() {
    parameters = casadi::MX::vertcat({Cy1,Cy2,l1,l2,m,J});
 }
 
-void CarNonlinearStateSpace::Linearize() {
+void marsvin::CarNonlinearStateSpace::Linearize() {
     // Empty for nonlinear models
 };
 
-casadi::MX CarNonlinearStateSpace::GetStateVector() {
+casadi::MX marsvin::CarNonlinearStateSpace::GetStateVector() {
     return X;
 }
 
-casadi::MX CarNonlinearStateSpace::GetInputVector() {
+casadi::MX marsvin::CarNonlinearStateSpace::GetInputVector() {
     return U;
 }
 
-casadi::MX CarNonlinearStateSpace::GetParameters() {
+casadi::MX marsvin::CarNonlinearStateSpace::GetParameters() {
     return parameters;
 }
 
-casadi::MX CarNonlinearStateSpace::GetFunctionVector() {
+casadi::MX marsvin::CarNonlinearStateSpace::GetFunctionVector() {
     return dotX;
 }
 

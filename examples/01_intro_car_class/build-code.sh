@@ -11,5 +11,5 @@ cmake ..
 # Make binaries
 make
 # Run binaries
-./car_state_space
+./marsvin_example
 

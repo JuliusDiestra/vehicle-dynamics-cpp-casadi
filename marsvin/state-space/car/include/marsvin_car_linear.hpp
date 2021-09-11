@@ -1,9 +1,9 @@
-#ifndef CAR_LINEAR_STATE_SPACE_HPP_
-#define CAR_LINEAR_STATE_SPACE_HPP_
+#ifndef MARSVIN_STATE_SPACE_CAR_LINEAR_HPP_
+#define MARSVIN_STATE_SPACE_CAR_LINEAR_HPP_
 
-#include "casadi/casadi.hpp"
-#include "mt_tools.hpp"
-#include "car_nonlinear.hpp"
+#include "marsvin_car_nonlinear.hpp"
+
+namespace marsvin {
 
 class CarLinearStateSpace : public CarNonlinearStateSpace {
     public:
@@ -15,6 +15,7 @@ class CarLinearStateSpace : public CarNonlinearStateSpace {
         casadi::MX A;
         casadi::MX B;
 };
+}
 
-#endif // CAR_LINEAR_STATE_SPACE_HPP_
+#endif // MARSVIN_STATE_SPACE_CAR_LINEAR_HPP_
 

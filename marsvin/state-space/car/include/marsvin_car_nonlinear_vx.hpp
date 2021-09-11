@@ -1,9 +1,9 @@
-#ifndef CAR_NONLINEAR_VX_STATE_SPACE_HPP_
-#define CAR_NONLINEAR_VX_STATE_SPACE_HPP_
+#ifndef MARSVIN_STATE_SPACE_CAR_NONLINEAR_VX_HPP_
+#define MARSVIN_STATE_SPACE_CAR_NONLINEAR_VX_HPP_
 
-#include "casadi/casadi.hpp"
-#include "mt_tools.hpp"
-#include "car_nonlinear.hpp"
+#include "marsvin_car_nonlinear.hpp"
+
+namespace marsvin {
 
 class CarNonlinearVxStateSpace : public CarNonlinearStateSpace {
     public:
@@ -12,5 +12,7 @@ class CarNonlinearVxStateSpace : public CarNonlinearStateSpace {
         void CalculateGeneralizedForces() override;
         void DefineStateSpace() override;
 };
+}
 
-#endif // CAR_NONLINEAR_VX_STATE_SPACE_HPP_
+#endif // MARSVIN_STATE_SPACE_CAR_NONLINEAR_VX_HPP_
+
