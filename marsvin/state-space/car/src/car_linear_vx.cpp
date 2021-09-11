@@ -1,18 +1,19 @@
-#include "car_linear_vx.hpp"
+#include "marsvin_car_linear_vx.hpp"
 
 // Constructor
-CarLinearVxStateSpace::CarLinearVxStateSpace(){};
+marsvin::CarLinearVxStateSpace::CarLinearVxStateSpace(){};
 
-void CarLinearVxStateSpace::Linearize() {
+void marsvin::CarLinearVxStateSpace::Linearize() {
     A = casadi::MX::substitute(casadi::MX::jacobian(dotX,X),casadi::MX::vertcat({X,U}),casadi::MX::vertcat({0,0,0}));
     B = casadi::MX::substitute(casadi::MX::jacobian(dotX,U),casadi::MX::vertcat({X,U}),casadi::MX::vertcat({0,0,0}));
     dotX = casadi::MX::mtimes(A,X) + casadi::MX::mtimes(B,U);
 };
 
-casadi::MX CarLinearVxStateSpace::GetA() {
+casadi::MX marsvin::CarLinearVxStateSpace::GetA() {
    return A; 
 };
 
-casadi::MX CarLinearVxStateSpace::GetB() {
+casadi::MX marsvin::CarLinearVxStateSpace::GetB() {
     return B;
 };
+
